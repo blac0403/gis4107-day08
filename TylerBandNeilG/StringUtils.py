@@ -5,7 +5,7 @@ def getInitials(fullName):
     initials = ''
     names = fullName.split()
     for letter in names:
-        initials += '.'.join(letter[0]) + '.'
+        initials += letter[0] + '.'
     return initials
 ##    initials = fullName.split()
 ##    for letter in initials:
