@@ -68,7 +68,9 @@
 ##    print getInitials("Nora Young")
 
 ###test_getInitials()
-
+##
+##
+###Question 5
 ##def isValidPhoneNumber(phoneNumber):
 ##    if len(phoneNumber) ==12:
 ##        if phoneNumber[0:3:7].isdigit() and phoneNumber[8:12].isdigit():
@@ -83,6 +85,8 @@
 ##
 ###test_isValidPhoneNumber()
 ##
+##
+##Question 6
 ##def phoneNumberHasLetters(phoneNumber):
 ##    if len(phoneNumber) == 12:
 ##        if phoneNumber [3] and phoneNumber[7] == '-':
@@ -101,6 +105,8 @@
 ##
 ##test_phoneNumberHasLetters()
 ##
+##
+###Question 7
 ##def getFeatureTypeFromName(fcName):
 ##    if fcName.upper().endswith('_PNT'):
 ##        return "Point"
@@ -122,3 +128,81 @@
 ##
 ##test_getFeatureTypeFromName()
 
+###Question 8
+##def getCoordsFromGpx(gpx):
+##    if gpx.count("trkpt"): # and gpx.startswith("trkpt")
+##        start = gpx.find("lat=")
+##        middle = gpx.find("lon=")
+##        end = gpx.find('">')
+##        return gpx[start+5:middle-2], gpx[middle+5:end]
+##    return "None"
+##
+##def test_getCoordsFromGpx():
+##    print getCoordsFromGpx('<trkpt lat="45.3888995" lon="-75.7472631">')
+##    print getCoordsFromGpx(' lat="45.3888995" lon="-75.7472631">')
+##
+##test_getCoordsFromGpx()
+
+#Question 9
+def getEW(dmsRecord):
+    return dmsRecord[10].upper()
+
+def test_getEW():
+    print getEW("DDD MM SS W DD MM SS N")
+    print getEW("DDD MM SS w DD MM SS N")
+
+#test_getEW()
+
+
+#Qestion 10
+def getNS(dmsRecord):
+    return dmsRecord[21].upper()
+
+def test_getNS():
+    print getNS("DDD MM SS W DD MM SS N")
+    print getNS("DDD MM SS w DD MM SS n")
+
+#test_getNS()
+
+#Question 11
+def dms2dd(dmsRecord):
+    #DD for EW
+    for i in dmsRecord[0:9]:
+        latD = int(dmsRecord[0:3])
+        latM = int(dmsRecord[4:6])
+        latS = float(dmsRecord[7:9])
+        latDD = latD + float(latM)/60 + float(latS)/3600
+    if latD < 0 and latD>180:
+        return None
+    if latM <0 and latS<0 and latM>60 and latS>60:
+        return None
+
+    #DD for NS
+    for i in dmsRecord[12:21]:
+        lonD = int(dmsRecord[0:3])
+        lonM = int(dmsRecord[4:6])
+        lonS = float(dmsRecord[7:9])
+        lonDD = lonD + float(lonM)/60 + float(lonS)/3600
+
+    if lonD<0 and lonD>90:
+        return None
+    if lonM<0 and lonS<0 and lonM>60 and lonS>60:
+        return None
+
+    #long/lat slice
+    lat = dmsRecord[0:9]
+    lon= dmsRecord[12:21]
+    EWdirection = getEW(dmsRecord)
+    if EWdirection == 'W':
+        EWsign = "-"
+
+    NSdirection = getNS(dmsRecord)
+    if NSdirection == 'S':
+        NSsign = "-"
+
+    return latDD, lonDD, EWsign, lat, NSsign, lon
+
+def test_dms2dd():
+    print dms2dd("075 45 03 W 45 23 05 N")
+
+test_dms2dd()
