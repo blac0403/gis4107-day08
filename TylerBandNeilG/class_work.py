@@ -179,9 +179,9 @@ def dms2dd(dmsRecord):
 
     #DD for NS
     for i in dmsRecord[12:21]:
-        lonD = int(dmsRecord[0:3])
-        lonM = int(dmsRecord[4:6])
-        lonS = float(dmsRecord[7:9])
+        lonD = int(dmsRecord[12:15])
+        lonM = int(dmsRecord[16:18])
+        lonS = float(dmsRecord[19:21])
         lonDD = lonD + float(lonM)/60 + float(lonS)/3600
 
     if lonD<0 and lonD>90:
@@ -195,12 +195,14 @@ def dms2dd(dmsRecord):
     EWdirection = getEW(dmsRecord)
     if EWdirection == 'W':
         EWsign = "-"
+    else: EWsign = ""
 
     NSdirection = getNS(dmsRecord)
     if NSdirection == 'S':
         NSsign = "-"
+    else: NSsign = ""
 
-    return latDD, lonDD, EWsign, lat, NSsign, lon
+    return "Latitude Decimal Degrees: %0.2f \nLongitude Decimal Degrees: %0.2f \n\n %s %s,%s %s" %(latDD, lonDD, EWsign, lat, NSsign, lon)
 
 def test_dms2dd():
     print dms2dd("075 45 03 W 45 23 05 N")
